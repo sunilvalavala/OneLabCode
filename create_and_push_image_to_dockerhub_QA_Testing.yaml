@@ -1,0 +1,21 @@
+---
+- hosts: all
+
+
+  tasks:
+  - name: create docker image using WAR file
+    command: docker build -t imageforqa:latest .
+    args:
+      chdir: /opt/docker/testing
+
+
+  - name: create a tag to the image
+    command: docker tag imageforqa sunilvalavala/imageforqa
+
+
+  - name: push to dockerhub
+    command: docker push sunilvalavala/imageforqa
+
+  - name: remove image from ansible server
+    command: docker rmi imageforqa:latest sunilvalavala/imageforqa
+    ignore_errors: yes

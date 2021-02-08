@@ -1,0 +1,21 @@
+---
+- hosts: all
+  tasks:
+
+  - name: stop current running container
+    command: docker stop andrew-test-container
+    ignore_errors: yes
+
+  - name: remove the stoped  container
+    command: docker rm andrew-test-container
+    ignore_errors: yes
+
+  - name: remove docker image
+    command: docker rmi sunilvalavala/imageforqa:latest
+    ignore_errors: yes
+
+  - name: pull docker image from docker hub
+    command: docker pull sunilvalavala/imageforqa:latest
+
+  - name: create container using test image
+    command: docker run -d --name andrew-test-container -p 8080:8080 sunilvalavala/imageforqa
